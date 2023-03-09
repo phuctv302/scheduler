@@ -1,0 +1,37 @@
+{
+	"name": "scheduler",
+	"version": "1.0.0",
+	"description": "Distributed task scheduler",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "pm2-runtime start ecosystem.config.js",
+		"dev": "pm2 start ecosystem.config.js",
+		"restart": "pm2 restart ecosystem.config.js",
+		"server": "nodemon server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@git.base.vn:ducduong/scheduler.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"amqplib": "^0.10.2",
+		"async": "^3.2.4",
+		"child_process": "^1.0.2",
+		"compression": "^1.7.4",
+		"cron-parser": "^4.6.0",
+		"cronstrue": "^2.14.0",
+		"dotenv": "^16.0.1",
+		"express": "^4.18.1",
+		"lodash": "^4.17.21",
+		"morgan": "^1.10.0",
+		"mysql2": "^2.3.3",
+		"node-cron": "^3.0.2",
+		"node-schedule": "^2.1.0",
+		"redis": "^4.3.1",
+		"sequelize": "^6.21.3",
+		"true-autosaver": "^1.1.2"
+	}
+}

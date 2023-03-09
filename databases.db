@@ -1,0 +1,30 @@
+create table if not exists JobSchedules(
+	id int primary key auto_increment,
+	metatype varchar(63),
+
+	job_id int,
+	exec_time int,
+	tries int,
+	dispatched_time int,
+	status varchar(15)      -- PEDNING/EXECUTING
+	
+	key jobschedules_exectime (exec_time);
+) engine = INNODB;
+
+
+create table if not exists Jobs(
+	id int primary key auto_increment,
+	
+	app varchar(255),
+	name varchar(255),
+	description text,
+	message text,
+
+	time int,
+	end_time int,
+	
+	is_repeat int,
+	repeat_options text,
+	data text
+
+) engine = INNODB;

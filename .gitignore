@@ -1,0 +1,11 @@
+node_modules/
+rabbitmq/
+package-lock.json
+.env
+.prettierrc
+test.json
+my.test.js
+test/
+.vscode/
+ui/
+logs/

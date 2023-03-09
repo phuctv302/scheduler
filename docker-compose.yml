@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  # MySql services
+  mysql_db:
+    container_name: mysql_db
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD: phuc
+      MYSQL_DATABASE: scheduler
+      TZ: Asia/Bangkok
+
+  # rabbitmq:
+  #  image: rabbitmq:3.10-management
+  #  container_name: 'rabbitmq'
+  #  volumes:
+  #     - ./rabbitmq/data/:/var/lib/rabbitmq/mnesia
+  #     - ./rabbitmq/log/:/var/log/rabbitmq
+  #  ports:
+  #     - 5673:5672
+  #     - 15673:15672
+
+  # Node service
+  api:
+    container_name: api
+    build: .
+    ports:
+      - 4000:4000
+    environment:
+      schedule_cron: '0 * * * *'
+      fetch_cron: '* * * * *'
+      worker_ttl: 5
+      db_username: root
+      db_password: phuc
+      db_host: mysql_db
+      db_port: 3306
+      db_dialect: mysql
+      AMQP_HOST: rabbitmq
+    depends_on:
+      - mysql_db
+    networks:
+      - default
+      - worker-rabbitmq
+
+  # Redis service
+  redis:
+    container_name: redis_server
+    image: redis:6.2.5-alpine
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+
+volumes:
+  mysql_db:
+    driver: local
+  rabbitmq:
+    driver: local
+
+networks:
+  worker-rabbitmq:
+    external:
+      name: worker-rabbitmq
